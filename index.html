@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcula tu horario laboral - Sucursales</title>
+    <style>
+        body {
+            background-color: #dbeafe;
+            color: #1e3a8a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .card {
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            width: 90%;
+            max-width: 420px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .info-text {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .highlight {
+            color: #1e40af;
+            font-size: 20px;
+        }
+        .footer-text {
+            text-align: center;
+            margin-top: 30px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .result-text {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .delay-text {
+            color: red;
+            font-weight: bold;
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .card {
+                padding: 15px;
+            }
+            input, select, button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Calcula tu horario laboral - Sucursales</h1>
+    <div class="card">
+        <label>Horario de Entrada:</label>
+        <input type="time" id="entryTime" value="08:00">
+        <label>Día:</label>
+        <select id="day">
+            <option value="lunes">Lunes a Jueves</option>
+            <option value="viernes">Viernes</option>
+        </select>
+        <button onclick="calculateExit()">Calcular Salida</button>
+        <p id="result" class="result-text"></p>
+    </div>
+    <div class="card">
+        <button onclick="calculateHalfDayExit()">Calcular Medio Día</button>
+        <p id="halfDayResult" class="result-text"></p>
+    </div>
+    <div class="info-text">
+        <p>Si solicitas medio Permiso Administrativo<br>en la mañana, tu horario de ingreso<br>debe ser:</p>
+        <p class="highlight">Lunes a Jueves: entre 12:45 a 13:15</p>
+        <p class="highlight">Viernes: entre 12:15 a 12:45</p>
+    </div>
+    <div class="footer-text">
+        Gestión y Desarrollo de las Personas, DZCN
+    </div>
+</body>
+</html>
