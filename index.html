@@ -15,17 +15,16 @@
             font-family: Arial, sans-serif;
         }
         h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
             margin-top: 10px;
-            text-align: center;
         }
         .card {
             background-color: #ffffff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             border-radius: 16px;
-            padding: 20px;
-            width: 90%;
+            padding: 24px;
+            width: 100%;
             max-width: 420px;
             margin-bottom: 20px;
         }
@@ -33,15 +32,15 @@
             display: block;
             margin-top: 10px;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
         }
         input, select, button {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin-top: 5px;
             border: 2px solid #3b82f6;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 18px;
             box-sizing: border-box;
         }
         button {
@@ -54,41 +53,26 @@
         .info-text {
             text-align: center;
             font-weight: bold;
-            margin-top: 20px;
-            font-size: 18px;
+            margin-top: 30px;
+            font-size: 20px;
         }
         .highlight {
             color: #1e40af;
-            font-size: 20px;
+            font-size: 22px;
         }
         .footer-text {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 40px;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 22px;
         }
         .result-text {
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
         }
         .delay-text {
             color: red;
             font-weight: bold;
-        }
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            h1 {
-                font-size: 24px;
-            }
-            .card {
-                padding: 15px;
-            }
-            input, select, button {
-                font-size: 14px;
-                padding: 10px;
-            }
         }
     </style>
 </head>
@@ -102,11 +86,11 @@
             <option value="lunes">Lunes a Jueves</option>
             <option value="viernes">Viernes</option>
         </select>
-        <button onclick="calculateExit()">Calcular Salida</button>
+        <button onclick="calculateExitTime()">Calcular Salida</button>
         <p id="result" class="result-text"></p>
     </div>
     <div class="card">
-        <button onclick="calculateHalfDayExit()">Calcular Medio Día</button>
+        <button onclick="calculateHalfDayExitTime()">Calcular Medio Día</button>
         <p id="halfDayResult" class="result-text"></p>
     </div>
     <div class="info-text">
@@ -117,5 +101,64 @@
     <div class="footer-text">
         Gestión y Desarrollo de las Personas, DZCN
     </div>
+
+    <script>
+        function formatDelay(atraso) {
+            if (atraso >= 60) {
+                let hours = Math.floor(atraso / 60);
+                let minutes = atraso % 60;
+                return `<span class='delay-text'>Atraso de ${hours}h ${minutes}m</span>`;
+            }
+            return `<span class='delay-text'>Atraso de ${atraso} minutos</span>`;
+        }
+
+        function calculateExitTime() {
+            let entryTime = document.getElementById("entryTime").value;
+            let day = document.getElementById("day").value;
+            const [hours, minutes] = entryTime.split(":").map(Number);
+            let atraso = Math.max(0, hours * 60 + minutes - 510);
+            let totalMinutes = day === "viernes" ? 480 : 540;
+            let exitMinutes = hours * 60 + minutes + totalMinutes;
+            let exitHour = Math.floor(exitMinutes / 60);
+            let exitMin = exitMinutes % 60;
+            let exitTime = `${exitHour}:${exitMin.toString().padStart(2, "0")}`;
+            let topeSalida = day === "viernes" ? "16:30" : "17:30";
+
+            if (exitMinutes > (day === "viernes" ? 990 : 1050)) {
+                exitTime = topeSalida;
+            }
+
+            let resultText = `Hora de salida: <b>${exitTime}</b>`;
+            if (atraso > 0) {
+                resultText += ` | ${formatDelay(atraso)}`;
+            }
+
+            document.getElementById("result").innerHTML = resultText;
+        }
+
+        function calculateHalfDayExitTime() {
+            let entryTime = document.getElementById("entryTime").value;
+            let day = document.getElementById("day").value;
+            const [hours, minutes] = entryTime.split(":").map(Number);
+            let atraso = Math.max(0, hours * 60 + minutes - 510);
+            let totalMinutes = day === "viernes" ? 225 : 255;
+            let exitMinutes = hours * 60 + minutes + totalMinutes;
+            let exitHour = Math.floor(exitMinutes / 60);
+            let exitMin = exitMinutes % 60;
+            let exitTime = `${exitHour}:${exitMin.toString().padStart(2, "0")}`;
+            let topeSalida = day === "viernes" ? "12:15" : "12:45";
+
+            if (exitMinutes > (day === "viernes" ? 735 : 765)) {
+                exitTime = topeSalida;
+            }
+
+            let resultText = `Hora de salida: <b>${exitTime}</b>`;
+            if (atraso > 0) {
+                resultText += ` | ${formatDelay(atraso)}`;
+            }
+
+            document.getElementById("halfDayResult").innerHTML = resultText;
+        }
+    </script>
 </body>
 </html>
